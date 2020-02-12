@@ -1,0 +1,17 @@
+NUMBER=1
+PLUS=2
+NEG=3
+MINUS=4
+MULT=5
+EXP=6
+OPENP=7
+CLOSEP=8
+WS=9
+TYPO=10
+'+'=2
+'--'=3
+'-'=4
+'*'=5
+'^'=6
+'('=7
+')'=8
