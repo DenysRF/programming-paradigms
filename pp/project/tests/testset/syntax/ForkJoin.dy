@@ -1,0 +1,46 @@
+${
+    This program should be correctly parsed.
+    Shows usage of concurrency with fork and join.
+}$
+
+shared int a <- 1;
+
+fork {
+    a <- (a+3);
+    print a;
+    a <- a+2;
+    print a;
+    fork {
+         a <- a+3;
+         print a;
+    }
+    join;
+}
+a <- a+2;
+join;
+print a;
+
+$ --------------------------------------------------------------------
+
+shared int x <- 1;
+int y <- 9;
+
+fork {
+    x <- (x+3);
+    print x;
+    x <- x+2;
+    print x;
+    fork {
+         x <- x+3;
+         print x;
+    }
+    join;
+}
+y <- y * 2;
+print y;
+print x;
+print x;
+x <- x+2;
+join;
+print x;
+

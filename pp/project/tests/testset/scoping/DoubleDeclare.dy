@@ -1,0 +1,9 @@
+int a <- 1;
+bool b <- true;
+
+if b {
+    a <- a + 10;
+}
+
+int a <- -1;
+

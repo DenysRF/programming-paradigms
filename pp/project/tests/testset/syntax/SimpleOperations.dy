@@ -1,0 +1,54 @@
+${
+    This program should be correctly parsed.
+    Contains simple operations like addition, subtraction, multiplication,
+    comparisons (and boolean operations).
+}$
+
+int one <- 1;
+int ten <- 10;
+int neg <- -1;
+int negten <- -10;
+bool t <- true;
+bool f <- false;
+
+$ addition
+int add0 <- 1 + 2;          $   3
+int add1 <- 1 + one;        $   1
+int add2 <- ten + 3;        $  13
+int add3 <- one + ten;      $  11
+int add4 <- -5 + ten;       $   5
+int add5 <- negten + neg;   $  -9
+
+$ subtraction
+int sub0 <- 1 - 2;          $  -1
+int sub1 <- 1 - one;        $   0
+int sub2 <- ten - 20;       $ -10
+int sub3 <- neg - negten;   $   9
+int sub4 <- -8 - -4;        $  -4
+
+$ multiplication
+int mult0 <- 2 * 2;         $   4
+int mult1 <- 4 * ten;       $  40
+int mult2 <- one * 1;       $   1
+int mult3 <- ten * ten;     $  10
+int mult4 <- -5 * ten;      $ -50
+int mult5 <- negten * neg;  $  10
+
+${ comparisons: (all work on (int # int) but EQ and NE also work on (bool # bool))
+LT:     <
+GT:     >
+EQ:     =
+NE:     not=
+LE:     <=
+GE:     >=                          }$
+bool c0 <- 5 < 6;           $ true
+bool c1 <- neg > negten;    $ true
+bool c2 <- 5 = 5;           $ true
+bool c3 <- f = t;           $ false
+bool c4 <- 5 not= 6;        $ true
+bool c5 <- 1 not= 1;        $ false
+bool c6 <- true not= false; $ true
+bool c7 <- 5 <= -6;         $ false
+bool c8 <- 5 >= 6;          $ false
+
+

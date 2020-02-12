@@ -1,0 +1,44 @@
+${
+    This program should be correctly parsed.
+    Contains if, if-else and while. (also nested)
+}$
+
+int x;
+if true {
+    x <- 1;
+}
+
+if 5 * 30 = 0 {
+    x <- 2;
+} else {
+    x <- 3;
+}
+
+if false {
+    x <- 4;
+} else {
+    if true {
+        x <- 5;
+    } else {
+        while true {
+            $ do nothing
+        }
+    }
+}
+
+bool b;
+while b {
+    x <- x + 1;
+    if x > 100 {
+        b <- false;
+    }
+}
+
+if true {
+    $ do something
+} else if true {
+    $ do something else
+} else {
+    $ do nothing
+}
+

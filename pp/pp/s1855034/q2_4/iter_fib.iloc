@@ -1,0 +1,84 @@
+                // Prologue
+                loadI @n => r_n
+                storeAI r_n => r_arp, 0                 // store n = 4 into scope 1 offset 0
+                // Precall
+                loadI #iter_fib => r_callee
+                storeAI r_arp => r_callee, -4           // prepare callee Access Link
+                loadI #end => r_end
+                storeAI r_end => r_callee, -8           // prepare callee Return Address
+                i2i r_callee => r_arp                   // set arp to iter_fib location
+                jumpI -> iter_fib                       // jump to iter_fib
+                // Postcall
+end:            loadAI r_arp, -4 => r_return_value      // load the returned value
+                out "fib(4) =", r_return_value          // line 16
+                jumpI -> end_program
+
+                // Prologue
+iter_fib:       loadI 0 => r_0
+                storeAI r_0 => r_arp, 0                 // store a = 0 into scope 2 offset 0
+                loadI 1 => r_1
+                storeAI r_1 => r_arp, 4                 // store b = 1 into scope 2 offset 4
+                // Precall
+                loadI #iterate => r_callee              // Prepare call to iterate
+                storeAI r_arp => r_callee, -4           // prepare callee Access Link
+                loadI #iter_fib_end => r_return
+                storeAI r_return => r_callee, -8        // prepare callee Return Address
+                loadAI r_arp, -4 => r_1                 // load scope 1 into r_1
+                loadAI r_1, 0 => r_n                    // load n (offset 0) from scope 1 into r_n
+                addI r_n, -1 => r_n                     // decrement n
+                storeAI r_n => r_callee, -12            // n as argument for iterate
+                i2i r_callee => r_arp                   // set arp to iterate
+                jumpI -> iterate                        // jump to iterate
+
+                // Epilogue
+iter_fib_end:   loadAI r_arp, -4 => r_1                 // load scope 1 into r_1
+                loadAI r_arp, 4 => r_b                  // load b (offset 4) from current scope into r_b
+                storeAI r_b => r_1, -4                  // store b as return value of caller
+                loadAI r_arp, -8 => r_return_address    // load return address (offset -8)
+                i2i r_1 => r_arp                        // restore to caller's arp
+                jump -> r_return_address                // jump to return address
+
+                // Prologue
+fib_step:       loadAI r_arp, -4 => r_2                 // load scope 2 ito r_2
+                loadAI r_2, 0 => r_a                    // load a (offset 0) from scope 2 into r_a
+                storeAI r_a => r_arp, 0                 // store into scope 3 a at offset 0 (c=a)
+                storeAI r_b => r_2, 0                   // store b into nonlocal a so scope 2 offset 0
+                loadAI r_2, 4 => r_b                    // load b (offset 4) from scope 2 into r_b
+                add r_a, r_b => r_b                     // a+b into r_b
+                storeAI r_b => r_2, 4                   // nonlocal b so store in scope 2 offset 4
+                // Epilogue
+                loadAI r_arp, -8 => r_return_address    // load return address (offset -8)
+                i2i r_2 => r_arp                        // Restore to caller's arp
+                jump -> r_return_address                // jump to return address
+
+                // Prologue
+iterate:        loadI 0 => r_cmp
+                loadAI r_arp, -12 => r_n                // load argument n into r_n
+                cmp_GT r_n, r_cmp => r_cmp              // line 11: if n > 0:
+                cbr r_cmp -> iterate_if, iterate_end
+                // Precall
+iterate_if:     loadI #fib_step => r_callee             // Prepare call to fib_step
+                storeAI r_arp => r_callee, -4           // prepare callee Access Link
+                loadI #iterate_if_1 => r_return
+                storeAI r_return => r_callee, -8        // prepare callee Return Address
+                i2i r_callee => r_arp                   // set arp to fib_step
+                jumpI -> fib_step                       // jump to fib_step
+
+                // Precall
+iterate_if_1:   loadI #iterate => r_callee              // Prepare call to iterate
+                storeAI r_arp => r_callee, -4           // prepare callee Access Link
+                loadI #iterate_end => r_return
+                storeAI r_return => r_callee, -8        // prepare callee Return Address
+                loadAI r_arp, -12 => r_n                // load argument n into r_n
+                addI r_n, -1 => r_n                     // decrement n
+                storeAI r_n => r_callee, -12            // n as argument for iterate
+                i2i r_callee => r_arp                   // set arp to iterate
+                jumpI -> iterate                        // jump to iterate
+
+                // Epilogue
+iterate_end:    loadAI r_arp, -8 => r_return_address    // load return address (offset -8)
+                loadAI r_arp, -4 => r_2                 // load caller's arp into r_2
+                i2i r_2 => r_arp                        // restore to caller's arp
+                jump -> r_return_address                // jump to return address
+
+end_program:    nop

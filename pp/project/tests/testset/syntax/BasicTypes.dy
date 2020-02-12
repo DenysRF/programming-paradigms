@@ -1,0 +1,13 @@
+${
+    This program should be correctly parsed.
+    Contains declaration of basic types int and bool.
+}$
+
+int a_0;            $ 0 by default
+int b <- 10;
+
+int while_asdf;
+int while_asdf <- 10;
+
+bool x_false;       $ false by default
+bool y <- true;

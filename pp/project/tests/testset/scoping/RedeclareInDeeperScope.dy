@@ -1,0 +1,14 @@
+int x;
+
+if true {
+    int x;
+
+    if true {
+        int x;
+
+        if true {
+            int x;
+        }
+    }
+}
+

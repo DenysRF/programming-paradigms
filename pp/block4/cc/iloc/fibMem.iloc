@@ -1,0 +1,16 @@
+while:  loadAI r_arp, @n => r1
+        loadI 1 => r2
+        cmp_GT r1, r2 => r1
+        cbr r1 -> body, end
+body:   loadAI r_arp, @x => r1
+        loadAI r_arp, @y => r2
+        add r1, r2 => r1
+        storeAI r1 => r_arp, @z
+        storeAI r2 => r_arp, @x
+        storeAI r1 => r_arp, @y
+        loadAI r_arp, @n => r1
+        subI r1, 1 => r1
+        storeAI r1 => r_arp, @n
+        jumpI -> while
+end:    loadAI r_arp, @z => r1
+        out "Result: ", r1

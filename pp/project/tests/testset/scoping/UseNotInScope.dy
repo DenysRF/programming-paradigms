@@ -1,0 +1,14 @@
+bool b <- true;
+
+while b {
+    int x;
+
+    if x > 10 {
+        b <- false;
+    }
+
+    x <- x + 1;
+}
+
+print x;
+

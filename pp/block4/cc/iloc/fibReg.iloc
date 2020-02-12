@@ -1,0 +1,13 @@
+start:  loadI @n => r_n
+        loadI 0 => r_x          // Line 1: int x = 0;
+        loadI 1 => r_y          // Line 2: int y = 1;
+        loadI 1 => r_z          // Line 3: int z = 1;
+        loadI 1 => r1
+while:  cmp_GT r_n, r1 => r_cmp  // Line 4: while(n > 1)
+        cbr r_cmp -> body, end
+body:   add r_x, r_y => r_z     // Line 5: z = x + y;
+        i2i r_y => r_x          // Line 6: x = y;
+        i2i r_z => r_y          // Line 7: y = z;
+        subI r_n, 1 => r_n      // Line 8: n = n - 1;
+        jumpI -> while
+end:    out "Result: ", r_z     // Line 9: return z;

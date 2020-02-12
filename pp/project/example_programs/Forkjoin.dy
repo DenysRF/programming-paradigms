@@ -1,0 +1,16 @@
+shared int x <- 1;
+
+fork {
+    x <- (x+3);
+    print x;
+    x <- x+2;
+    print x;
+    fork {
+         x <- x+3;
+         print x;
+    }
+    join;
+}
+x <- x+2;
+join;
+print x;

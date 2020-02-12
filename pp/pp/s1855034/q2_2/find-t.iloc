@@ -1,0 +1,29 @@
+                loadI @t => r_t                         // - load t into r_t from global memory
+                loadI 0 => r_l                          // line 1: int l = 0;
+                loadAI r_arp, @a => r_r                 // - load @a into r_r, first 4 bytes at @a is length of array a
+                subI r_r, 1 => r_r                      // line 2: int r = a.length - 1;
+                loadI 0 => r_m                          // line 3: int m = 0;
+while:          cmp_LE r_l, r_r => r_cmp                // line 4: while(l <= r)
+                cbr r_cmp -> while-body, while-end      // - enter while-body or exit the while-loop
+while-body:     add r_l, r_r => r_m                     // line 6: m = l + r;
+                divI r_m, 2 => r_m                      // line 7: m = m / 2;
+                i2i r_m => r_a                          // - load r_m into r_a
+                addI r_a, 1 => r_a                      // - add 1 to r_a, because the array starts with its size and not the first value
+                multI r_a, 4 => r_a                     // - multiply by 4, an integer is 4 bytes
+                addI r_a, @a => r_a                     // - add offset of @a address, r_a points to a[m]
+                loadAO r_arp, r_a => r_am               // - r_am holds the value a[m]
+                cmp_LT r_am, r_t => r_cmp               // line 8: if(a[m] < t)
+                cbr r_cmp -> if-body, else-if           // - enter if-body or else-if
+if-body:        addI r_m, 1 => r_l                      // line 9: l = m + 1;
+                jumpI -> while                          // - loop
+else-if:        cmp_GT r_am, r_t => r_cmp               // line 10: else if(a[m] > t)
+                cbr r_cmp -> else-if-body, while-end    // - enter else-if-body or while-end, because else breaks out of while
+else-if-body:   subI r_m, 1 => r_r                      // line 11: r = m -1;
+                jumpI -> while                          // - loop
+while-end:      cmp_LE r_l, r_r => r_cmp                // line 15: if(l <= r)
+                cbr r_cmp -> if-print, else-print       // - enter if-print or else-print
+if-print:       out "Found t at index ", r_m            // line 16: print("Found t at index ", m);
+                jumpI -> end                            // - jump to end
+else-print:     loadI -1 => r_m                         // - put -1 into r_m to indicate t was not found (for testing)
+                out "Did not find t", r_t               // line 18: print("Did not find t");
+end:            nop                                     // - end of program

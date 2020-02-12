@@ -1,0 +1,16 @@
+bool b <- true;
+
+if b {
+    int p <- 1;
+    if b {
+        int q <- 2;
+    }
+}
+
+if b {
+    int p <- 1;
+    if b {
+        int q <- 2;
+    }
+}
+

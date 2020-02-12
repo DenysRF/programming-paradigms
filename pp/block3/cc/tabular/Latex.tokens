@@ -1,0 +1,12 @@
+T__0=1
+SLASH=2
+START=3
+STARTARG=4
+END=5
+COMMENT=6
+CELL=7
+WS=8
+'&'=1
+'\\\\'=2
+'\\begin{tabular}'=3
+'\\end{tabular}'=5

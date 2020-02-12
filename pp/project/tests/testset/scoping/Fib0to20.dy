@@ -1,0 +1,25 @@
+int times;
+
+while times < 20 {
+    int a <- 0;
+    int b <- 1;
+
+    int i <- 0;
+    int arg <- times;
+
+    if arg = 0 {
+        b <- 0;
+    }
+
+    while i < arg {
+        int temp <- a;
+        a <- b;
+        b <- b + temp;
+        i <- i + 1;
+    }
+
+    print b;
+
+    times <- times + 1;
+}
+
